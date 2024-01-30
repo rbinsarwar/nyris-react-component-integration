@@ -1,23 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
-
+import "./App.css";
+import { useState } from "react";
+import { Capture, Preview } from "@nyris/nyris-react-components";
 function App() {
+  const [showCamera, setShowCamera] = useState(false);
+  const [canvas, setCanvas] = useState(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={() => setShowCamera(true)} onC>
+        open camera
+      </button>
+      {showCamera && (
+        <div>
+          <Capture
+            onCaptureComplete={(s) => {
+              console.log({ s });
+              setCanvas(s);
+              setShowCamera(false);
+            }}
+          />
+        </div>
+      )}
+      {canvas && (
+        <Preview
+          image={canvas}
+          selection={{ x1: 0, x2: 1, y1: 0, y2: 1 }}
+          regions={[]}
+          minWidth={80}
+          minHeight={80}
+          maxWidth={255}
+          maxHeight={255}
+          dotColor={"#FBD914"}
+          minCropWidth={60}
+          minCropHeight={60}
+          rounded={false}
+        />
+      )}
     </div>
   );
 }
