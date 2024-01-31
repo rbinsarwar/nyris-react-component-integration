@@ -9,7 +9,7 @@ function App() {
 
   const find = (image, region) => {
     const nyrisApi = new NyrisAPI({
-      xOptions: "", // it is recommended to not provide from frontend
+      xOptions: "", // it is recommended to not provide any value from frontend
       apiKey: "", // your api key
       baseUrl: "https://api.nyris.io",
       jpegQuality: 0.9,
@@ -30,9 +30,7 @@ function App() {
 
   return (
     <div>
-      <button onClick={() => setShowCamera(true)} onC>
-        open camera
-      </button>
+      <button onClick={() => setShowCamera(true)}>open camera</button>
       {showCamera && (
         <div>
           <Capture
