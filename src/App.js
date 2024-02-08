@@ -7,7 +7,7 @@ function App() {
   const [canvas, setCanvas] = useState(null);
   const [imageSelection, setImageSelection] = useState(null);
 
-  const find = (image, region) => {
+  const find = async (image, region) => {
     const nyrisApi = new NyrisAPI({
       xOptions: "", // it is recommended to not provide any value from frontend
       apiKey: "YOUR-API-KEY", // your api key
@@ -23,6 +23,14 @@ function App() {
       options = { cropRect: region };
     }
 
+    // using Try/catch
+    try {
+      let regionResponse = await nyrisApi.findRegions(image);
+      console.log({ regions: regionResponse });
+    } catch (error) {
+      console.log({ err: error.response.data });
+    }
+
     // region api call
     nyrisApi
       .findRegions(image)
@@ -30,7 +38,8 @@ function App() {
         console.log({ res });
       })
       .catch((err) => {
-        console.log({ err: err.response });
+        console.log({ err: err.response.data });
+        // to get error status use err.response.status
       });
 
     // find api call
