@@ -10,7 +10,7 @@ function App() {
   const find = (image, region) => {
     const nyrisApi = new NyrisAPI({
       xOptions: "", // it is recommended to not provide any value from frontend
-      apiKey: "", // your api key
+      apiKey: "YOUR-API-KEY", // your api key
       baseUrl: "https://api.nyris.io",
       jpegQuality: 0.9,
       maxHeight: 1024,
@@ -23,9 +23,25 @@ function App() {
       options = { cropRect: region };
     }
 
-    return nyrisApi.find(options, image).then((res) => {
-      console.log({ res });
-    });
+    // region api call
+    nyrisApi
+      .findRegions(image)
+      .then((res) => {
+        console.log({ res });
+      })
+      .catch((err) => {
+        console.log({ err: err.response });
+      });
+
+    // find api call
+    nyrisApi
+      .find(options, image)
+      .then((res) => {
+        console.log({ res });
+      })
+      .catch((err) => {
+        console.log({ err: err.response });
+      });
   };
 
   return (
